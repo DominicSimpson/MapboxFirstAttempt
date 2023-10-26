@@ -6,41 +6,24 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
   container: 'map', // container ID
 
-  style: 'mapbox://styles/mapbox/streets-v11',
+  style: 'mapbox://styles/mapbox/streets-v9',
 
-  center: [-0.08088, 51.48156],
+  center: [-91.874, 42.76],
 
-  zoom: 10,
+  zoom: 12,
 });
 
-let polygonData = {
-  type: 'Feature',
-  geometry: {
-    type: 'Polygon',
-    coordinates: [
-      [
-        [-0.08088, 51.48156],
-        [-0.08088, 51.48156],
-        [-0.08088, 51.48156],
-        [-0.08088, 51.48156],
-      ],
-    ],
+const draw = new MapboxDraw({
+  displayControlsDefault: false,
+  controls: {
+    polygon: true,
+    trash: true,
   },
-};
-
-map.on('load', function () {
-  map.addSource('polygon', {
-    type: 'geojson',
-    data: polygonData,
-  });
-
-  map.addLayer({
-    id: 'polygon-layer',
-    type: 'fill',
-    source: 'polygon',
-    paint: {
-      'fill-color': 'rgba(0, 0, 255, 0.5)',
-      'fill-outline-color': 'blue',
-    },
-  });
+  defaultMode: 'draw_polygon',
 });
+map.addControl(draw);
+
+map.on('draw.create', updateArea);
+map.on('draw.delete', updateArea);
+map.on('draw.update', updateArea);
+
