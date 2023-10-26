@@ -8,7 +8,7 @@ const map = new mapboxgl.Map({
 
   style: 'mapbox://styles/mapbox/streets-v9',
 
-  center: [-91.874, 42.76],
+  center: [-0.127758, 51.507351],
 
   zoom: 12,
 });
@@ -31,7 +31,7 @@ function updateArea(e) {
   const data = draw.getAll();
   const answer = document.getElementById('calculated-area');
   if (data.features.length > 0) {
-    const area = turf.area(data);
+    const area = turf.area(data.features[0].geometry);
     const rounded_area = Math.round(area * 100) / 100;
     answer.innerHTML = `<p><strong>${rounded_area}</strong></p><p>square meters</p>`;
   } else {
